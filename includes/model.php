@@ -10,12 +10,9 @@
  * 
  * @author Ben Russell (benrr101@csh.rit.edu) 
  */
-
-// Require the information for connecting to the database
-require_once("config_vars.php");
  
 class Model {
-	// Member Variables ---------------
+	// ATTRIBUTES -------------------------------
 	
 	/* The singleton instance of the class */
 	private static $instance;
@@ -23,27 +20,38 @@ class Model {
 	/* Instance of the mysqli database connection */
 	private $mysql;
 	
-	// Member Functions ---------------
+	// MEMBER FUNCTIONS -------------------------
+	
+	// 
 	
 	/**
 	 * Constructs an instance of the model and connects it to the database. It
 	 * is private to enable the singleton pattern.
+	 * 
+	 * @param array $config The configuration variables for use in connecting
+	 * to the database
 	 */
-	private function __construct() {
+	private function __construct($config) {
 		// Connect to the database
-		$mysql = new mysqli($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
+		$this->mysql = new mysqli($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
+		if ($this->mysql->connect_errno) {
+    		die('Connect Error: ' . $this->mysql->connect_errno);
+		}
 	}
 	
 	/**
 	 * Returns the singleton instance of the model. Creates an instance if one
 	 * does not already exist.
 	 * 
+	 * @param array $config The configuration variables for use in connecting
+	 * to the database
+	 *  
 	 * @return Model the instance of the Model class
 	 */
-	public static function getInstance() {
+	public static function getInstance($config) {
 		// If there isn't an instance set up, construct one, then return it
 		if(!self::$instance) {
-			self::$instance = new Model();
+			self::$instance = new Model($config);
 		}
 		
 		return self::$instance;

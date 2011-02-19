@@ -8,8 +8,11 @@
  * @author Ben Russell (benrr101@csh.rit.edu) 
  */
 
+// Require the configuration variables
+require_once "./includes/config_vars.php";
+
 // Require the model and create an instance of it
-require_once("./includes/model.php");
-$model = Model::getInstance();
+require_once "./includes/model.php";
+$model = Model::getInstance($config);
 
 ?>
