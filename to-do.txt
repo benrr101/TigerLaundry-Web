@@ -1,4 +1,0 @@
-- When site goes live, change /php/logger.php's absolute paths to the correct paths.
-- php/mysql.php needs logging support.
-- Change absolute paths to /modules/mysql.php
-	- or make a change root
