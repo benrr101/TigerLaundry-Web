@@ -15,4 +15,9 @@ require_once "./includes/config_vars.php";
 require_once "./includes/model.php";
 $model = Model::getInstance($config);
 
+// Require the header
+require_once "./includes/header.php";
+
+// Require the footer
+require_once "./includes/footer.php";
 ?>
