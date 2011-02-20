@@ -8,29 +8,28 @@
  */
  
  /* The array */
- $config = array();
+ $_TLCONFIG = array();
  
  // Database Configuration ----------------------
  
  /* Database Host -
   * This is the address of the database server. In most cases, this is localhost
   */
- $config['db_host'] = 'localhost';
+ $_TLCONFIG['db_host'] = 'localhost';
  
  /* Database Username -
   * This is the username that has permission to write/read from the TigerLaundry
   * database. This should /not/ be your database root user
   */
- $config['db_user'] = 'user';
+ $_TLCONFIG['db_user'] = 'user';
  
  /* Database Password -
   * Password for the username provided. 
   */
- $config['db_pass'] = 'password';
+ $_TLCONFIG['db_pass'] = 'pass';
  
  /* Database Name -
   * The name of the database that contains the TigerLaundry information
   */
- $config['db_name'] = 'database';
- 
+ $_TLCONFIG['db_name'] = 'db';
 ?>
