@@ -18,6 +18,7 @@
 
 body {
 	background-image:url('../images/globalShade.png');
+	background-color:#ff9500;
 	background-repeat:repeat-x;
 	font-family:"Geneva", "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Verdana", sans-serif;
 	margin:0px;
