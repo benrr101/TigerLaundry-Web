@@ -33,6 +33,14 @@ try {
 	// TODO: Set up 'official' error handling stuff
 }
 
+// Check if the file even exists
+if(!file_exists($pageLocation)) {
+	$pageTitle = "Page Not Found";
+	$pageLocation = "./pages/error.php";
+	
+	// TODO: Set up 'official' error handling stuff
+}
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
