@@ -13,13 +13,13 @@
  	// CONSTANTS ------------------------------------------
  	
  	/* Error entry type */
- 	public static final $ERROR_TYPE = "E";
+ 	const ERROR_TYPE = "E";
  	
  	/* Warning entry type */
- 	public static final $WARN_TYPE = "W";
+ 	const WARN_TYPE = "W";
  	
  	/* Notic entry type */
- 	public static final $NOTICE_TYPE = "N";
+ 	const NOTICE_TYPE = "N";
  	
  	// MEMBER VARIABLES -----------------------------------
  	
@@ -74,8 +74,17 @@
  	 * @param	string	type	The type of the error (use the constants)
  	 */
  	public function addEntry($message, $type) {
+ 		// Sanitize the input
+ 		$message = $this->dbConn->sanitize($message);
+ 		$type = $this->dbConn->sanitize($type);
+ 		
  		// Run the query
- 		$this->dbConn->query("INSERT INTO `log` (type, message, date) VALUES ($type, $message, NOW())");
+ 		$result = $this->dbConn->query("INSERT INTO `log` (type, message, date) VALUES ('$type', '$message', NOW())");
+ 		
+ 		// Check for errors
+ 		if($result === FALSE) {
+ 			throw new Exception("Log entry failed due to failed database query: {$this->dbConn->getLastError()}");
+ 		}
  	}
  }
 ?>

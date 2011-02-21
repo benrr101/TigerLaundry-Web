@@ -22,6 +22,9 @@
  	/* The database connection */
  	private $dbConn;
  	
+ 	/* The last error message received */
+ 	private $lastError;
+ 	
  	// METHODS --------------------------------------------
  	
  	// SINGLETON METHODS ------------------------
@@ -32,61 +35,72 @@
  	 * connection to the database.
  	 */
  	private function __construct() {
- 	 	// Call in the config variables
- 	 	global $_TLCONFIG;
+ 		// Call in the config variables
+ 		global $_TLCONFIG;
+ 		
+ 		// Conn the database into connecting
+ 		$this->dbConn = new mysqli($_TLCONFIG['db_host'], $_TLCONFIG['db_user'], $_TLCONFIG['db_pass'], $_TLCONFIG['db_name']);
+ 		
+ 		// TODO: Blow up if that didn't work
+ 	}
+ 	
+ 	/**
+ 	 * Would create a clone of the instance, however for singleton, we need
+ 	 * to make it private. Plus we'll never use it, so it doesn't need a body
+ 	 */
+ 	private function __clone() {}
+ 	
+ 	/**
+ 	 * Returns the only instance of the class. Creates one if it does not
+ 	 * already exist.
+ 	 * 
+ 	 * @return	the instance of the class
+ 	 */
+ 	public static function getInstance() {
+ 		// Do we need to create an instance?
+ 		if(!self::$instance) {
+ 			self::$instance = new MySQLConnection();
+ 		}
  	 	
- 	 	// Conn the database into connecting
- 	 	$this->dbConn = new mysqli($_TLCONFIG['db_host'], $_TLCONFIG['db_user'], $_TLCONFIG['db_pass'], $_TLCONFIG['db_name']);
- 	 	
- 	 	// TODO: Blow up if that didn't work
- 	 }
+ 		// Return it
+ 		return self::$instance;
+ 	}
  	 
- 	 /**
- 	  * Would create a clone of the instance, however for singleton, we need
- 	  * to make it private. Plus we'll never use it, so it doesn't need a body
- 	  */
- 	 private function __clone() {}
+ 	// DATABASE METHODS ------------------------
  	 
- 	 /**
- 	  * Returns the only instance of the class. Creates one if it does not
- 	  * already exist.
- 	  * 
- 	  * @return	the instance of the class
- 	  */
- 	 public static function getInstance() {
- 	 	// Do we need to create an instance?
- 	 	if(!self::$instance) {
- 	 		self::$instance = new MySQLConnection();
- 	 	}
- 	 	
- 	 	// Return it
- 	 	return self::$instance;
- 	 }
+ 	/**
+ 	 * Returns the last error that occurred
+ 	 * 
+ 	 * @return	string	The error message of the last error
+ 	 * 				NULL if no errors have occurred
+ 	 */
+ 	public function getLastError() {
+ 		return $this->lastError;
+ 	} 
  	 
- 	 // DATABASE METHODS ------------------------
- 	 
- 	 /**
- 	  * Sanitizes the provided string and then queries the database with it.
- 	  * Returns an array of the records that were returned, returns false
- 	  * if an error was encountered.
- 	  * 
- 	  * @param string 	query 	The query to run through the database
- 	  * 
- 	  * @return an array containing the records if a SELECT/SHOW/EXPLAIN query 
- 	  * 		was successful
- 	  * 		TRUE if any other query succeeded
- 	  * 		FALSE if the the query failed
- 	  */
-	 public function query($query) {
- 	 	// Sanitize the input
- 	 	$query = $this->dbConn->real_escape_string($query);
- 	 	
+ 	/**
+ 	 * Queries the database and returns an array of the records that were 
+ 	 * returned, if any. Returns TRUE if no records were returned, but the
+ 	 * query succeeded. Returns FALSE if an error was encountered. 
+ 	 * 
+ 	 * @param string 	query 	The query to run through the database
+ 	 * 
+ 	 * @return an array containing the records if a SELECT/SHOW/EXPLAIN query 
+ 	 * 		was successful
+ 	 * 		TRUE if any other query succeeded
+ 	 * 		FALSE if the the query failed
+ 	 */
+	public function query($query) {
  	 	// Run the query
- 	 	// TODO: Blow up if it fails
  	 	$result = $this->dbConn->query($query);
  	 	
  	 	// Return true/false if we have success or failure
  	 	if($result === TRUE || $result == FALSE) {
+ 	 		// Store the last error
+ 	 		if($result == FALSE) {
+ 	 			$this->lastError = $this->dbConn->error;
+ 	 		}
+ 	 		
  	 		return $result;
  	 	}
  	 	
@@ -102,7 +116,18 @@
  	 	
  	 	// Return the result set
  	 	return $resultSet;
- 	 }
+ 	}
+ 	
+ 	/**
+ 	 * Sanitize the provided string using the real_escape_string method
+ 	 * 
+ 	 * @param	string	string	The string to sanitize
+ 	 * 
+ 	 * @return	string	The sanitized string
+ 	 */
+ 	public function sanitize($string) {
+ 		return $this->dbConn->real_escape_string($string);
+ 	}
  	
  	// DECONSTRUCTION METHOD --------------------
  	
