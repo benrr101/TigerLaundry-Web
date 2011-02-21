@@ -13,9 +13,11 @@ require_once "./includes/config_vars.php";
 
 // Require the necessary classes
 require_once "./includes/MySQLConnection.php";
+require_once "./includes/LogController.php";
 require_once "./includes/PageController.php";
 
 // Get instances of the necessary classes
+$logger = LogController::getInstance();
 $pageController = PageController::getInstance();
 
 // PARSE GET VALUES -----------------------------
@@ -30,15 +32,20 @@ try {
 	$pageTitle = "Page Not Found";
 	$pageLocation = "./pages/error.php";
 	
-	// TODO: Set up 'official' error handling stuff
+	$errorTitle = "Page Not Found";
+	$errorMessage = "The requested page is not a valid page. Please select a page from the navigation bar.";
+	$logger->addEntry("Invalid page request: pageID='{$pageID}'", LogController::WARN_TYPE);
 }
 
 // Check if the file even exists
 if(!file_exists($pageLocation)) {
+	// The page is valid, but the file does not exist
 	$pageTitle = "Page Not Found";
 	$pageLocation = "./pages/error.php";
 	
-	// TODO: Set up 'official' error handling stuff
+	$errorTitle = "Page Not Found";
+	$errorMessage = "The requested page was not found. Please contact the site administrator if the problem persists.";
+	$logger->addEntry("Requested page does not exist: pageLocation='{$pageLocation}'", LogController::ERROR_TYPE);
 }
 
 ?>
@@ -59,6 +66,6 @@ if(!file_exists($pageLocation)) {
 	</head>
 	<body>
 		<!-- Header -->
-		<div id="test"><?= $pageLocation ?></div>
+		<? require($pageLocation); ?>
 	</body>
 </html>
