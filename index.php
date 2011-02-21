@@ -18,15 +18,27 @@ require_once "./includes/PageController.php";
 // Get instances of the necessary classes
 $pageController = PageController::getInstance();
 
+// PARSE GET VALUES -----------------------------
+$pageID = (empty($_GET['id'])) ? "index" : $_GET['id'];
+
 // GENERATE PAGE VALUES -------------------------
-$title = $pageController->getPageTitle($_GET['id']);
+try {
+	$pageTitle = $pageController->getPageTitle($pageID);
+	$pageLocation = "./pages/" . $pageController->getPageLocation($pageID);
+} catch(Exception $e) {
+	// The page is invalid
+	$pageTitle = "Page Not Found";
+	$pageLocation = "./pages/error.php";
+	
+	// TODO: Set up 'official' error handling stuff
+}
 
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
-		<title><?= $title ?></title>
+		<title><?= $pageTitle ?> - Tiger Laundry</title>
 		
 		<!-- MetaData -->
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
@@ -39,6 +51,6 @@ $title = $pageController->getPageTitle($_GET['id']);
 	</head>
 	<body>
 		<!-- Header -->
-		<div id="test">Fuck Bitches!</div>
+		<div id="test"><?= $pageLocation ?></div>
 	</body>
 </html>

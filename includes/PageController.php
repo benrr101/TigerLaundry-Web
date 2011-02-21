@@ -64,21 +64,49 @@
  	 // PAGE INFORMATION METHODS ----------------
  	 
  	 /**
- 	  * Returns the title for the page id given
+ 	  * Retrieves the row of information for the given page. Does checking to
+ 	  * see if the page is valid. Throws an exception if the page is invalid.
+ 	  * 
+ 	  * @param	string	id	The id of the page to retrieve
+ 	  * @throws	Exception	thrown when the page requested is not valid
+ 	  * 
+ 	  * @return array	An array of the page's information
+ 	  */
+ 	 private function getPageArray($id) {
+ 	 	// Attempt to grab the index
+ 	 	$index = $this->isValidPage($id);
+ 	 	
+ 	 	// If it's invalid, throw an exception
+ 	 	if($this->isValidPage($id) === FALSE) {
+ 	 		throw new Exception("Attempting to get information for an invalid page id: {$id}");
+ 	 	}
+ 	 	
+ 	 	// Since it was valid, now we return it
+ 	 	return $this->pageInformation[$index];
+ 	 }
+ 	 
+ 	 /**
+ 	  * Retrieves the location of the page id given. 
+ 	  * 
+ 	  * @param	string	id	The id of the page to get the location of
+ 	  * 
+ 	  * @return	string	The name of the page's file
+ 	  */
+ 	 public function getPageLocation($id) {
+ 	 	$page = $this->getPageArray($id);
+ 	 	return $page['location'];
+ 	 }
+ 	 
+ 	 /**
+ 	  * Returns the title for the page id given.
  	  * 
  	  * @param	string	id	the id of the page
  	  * 
- 	  * @return	string	the title of the page if the page is valid
- 	  * 				FALSE if the page is invalid
+ 	  * @return	string	the Title of the page
  	  */
  	 public function getPageTitle($id) {
- 	 	// Get the page information array
- 	 	$page = $this->isValidPage($id);
- 	 	if($page == FALSE) {
- 	 		return FALSE;
- 	 	} else {
- 	 		return $page['title'];
- 	 	}
+ 	 	$page = $this->getPageArray($id);
+ 	 	return $page['title'];
  	 }
  	 
  	 /**
@@ -86,15 +114,15 @@
  	  * 
  	  * @param	string	id	the id of the page
  	  * 
- 	  * @return	mixed	The array containing the page if valid
+ 	  * @return	int		The index of the page's information array 
  	  * 				FALSE if the page is invalid
  	  */
  	 public function isValidPage($id) {
  	 	// Iterate over the rows in pageInformation
- 	 	foreach($this->pageInformation as $value) {
+ 	 	foreach($this->pageInformation as $index => $value) {
  	 		// If the id matches, return true
  	 		if($value['id'] == $id) {
- 	 			return $value;
+ 	 			return $index;
  	 		}
  	 	}
  	 	
