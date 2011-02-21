@@ -82,6 +82,7 @@
  	 	$query = $this->dbConn->real_escape_string($query);
  	 	
  	 	// Run the query
+ 	 	// TODO: Blow up if it fails
  	 	$result = $this->dbConn->query($query);
  	 	
  	 	// Return true/false if we have success or failure
