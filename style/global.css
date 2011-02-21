@@ -1,0 +1,38 @@
+/*
+ * Styles for Tiger Laundry Design 5: Global Styles (2011 Recode Version)
+ * 
+ * Design by Ben Russell (benrr101@csh.rit.edu)
+ */
+
+/* STYLE STRUCTURE ----------------------------------------
+
+	body
+	 |
+	 a
+	 | - :active
+	 | - :link
+	 | - :visited
+	 |
+	 |
+*/
+
+body {
+	background-image:url('../images/globalShade.png');
+	background-repeat:repeat-x;
+	font-family:"Geneva", "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Verdana", sans-serif;
+	margin:0px;
+}
+
+a:active {
+	font-color:grey;
+}
+
+a:link {
+	font-color:blue;
+}
+
+a:visited {
+	font-color:#551A8B;
+}
+
+

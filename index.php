@@ -59,7 +59,7 @@ if(!file_exists($pageLocation)) {
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 		
 		<!-- CSS -->
-		<link href="./css/global2.css" rel="stylesheet" type="text/css" />
+		<link href="./style/global.css" rel="stylesheet" type="text/css" />
 		
 		<!-- JavaScript -->
 		
