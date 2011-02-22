@@ -37,7 +37,7 @@ try {
 	$logger->addEntry("Invalid page request: pageID='{$pageID}'", LogController::WARN_TYPE);
 }
 
-// Check if the file even exists
+// ERROR CHECKING -------------------------------
 if(!file_exists($pageLocation)) {
 	// The page is valid, but the file does not exist
 	$pageTitle = "Page Not Found";
@@ -65,7 +65,21 @@ if(!file_exists($pageLocation)) {
 		
 	</head>
 	<body>
-		<!-- Header -->
-		<? require($pageLocation); ?>
+		<div id="container">
+			<!-- Header -->
+			<div id="header">
+				<? require("./pages/header.php"); ?>
+			</div>
+			
+			<!-- Content -->
+			<div id="content">
+				<? require($pageLocation); ?>
+			</div>
+		
+			<!-- Footer -->
+			<div id="footer">
+				<? require("./pages/footer.php"); ?>
+			</div>
+		</div>
 	</body>
 </html>

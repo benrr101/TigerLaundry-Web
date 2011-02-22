@@ -64,6 +64,58 @@
  	// PAGE INFORMATION METHODS ----------------
  	
  	/**
+ 	 * Generates the code to create the navigation bar.
+ 	 * 
+ 	 * @return 	string	The code for the navbar
+ 	 */
+ 	public function getNavCode() {
+ 		// The resulting code
+ 		$result = "";
+ 		
+ 		// Iterate over the pages
+ 		for($i = 0; $i < count($this->pageInformation); $i++) {
+ 			// If it's a parent, output it and find it's children
+ 			if($this->pageInformation[$i]['parent'] == "none") {
+ 				// Find the children
+ 				$children = array();
+ 				foreach($this->pageInformation as $key2 => $value2) {
+ 					if($value2['parent'] == $this->pageInformation[$i]['id']) {
+ 						array_push($children, $key2);
+ 					}
+ 				}
+ 				
+				// If there are children, output the trigger box and the children inside it
+				if(count($children) > 0) {
+ 					$result .= "<span id='trigger'>";
+ 					$result .= "<a href='index.php?id={$this->pageInformation[$i]['id']}'>{$this->pageInformation[$i]['title']}</a>";
+ 					$result .= "<span id='headerMenu'>";
+ 					foreach($children as $index) {
+ 						$result .= "<a href='index.php?id={$this->pageInformation[$index]['id']}' class='subMenu'>{$this->pageInformation[$index]['title']}</a>";
+ 					}
+					$result .="</span></span>";
+					
+					// Output the dot if there's another
+ 					if($i + count($children) + 1 < count($this->pageInformation)) {
+ 						$result .= " &middot; ";
+ 					}
+					
+				} else {
+					// Otherwise, just output the link
+					$result .= "<a href='index.php?id={$this->pageInformation[$i]['id']}'>{$this->pageInformation[$i]['title']}</a>";
+					
+					// Output the dot if there's another
+ 					if($i + 1 < count($this->pageInformation)) {
+ 						$result .= " &middot; ";
+ 					}
+				}
+ 			}
+ 		}
+ 		
+ 		// Return the result
+ 		return $result;
+ 	}
+ 	
+ 	/**
  	 * Retrieves the row of information for the given page. Does checking to
  	 * see if the page is valid. Throws an exception if the page is invalid.
  	 * 
