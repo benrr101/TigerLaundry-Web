@@ -62,7 +62,8 @@ if(!file_exists($pageLocation)) {
 		<link href="./style/global.css" rel="stylesheet" type="text/css" />
 		
 		<!-- JavaScript -->
-		
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/menu_animate.js.php"></script> 
 	</head>
 	<body>
 		<div id="container">
