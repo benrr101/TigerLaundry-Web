@@ -8,44 +8,52 @@
  * @author Ben Russell (benrr101@csh.rit.edu) 
  */
 
-// Require the configuration variables
-require_once "./includes/config_vars.php";
+// REQUIRE GLOBALS ------------------------------
+require_once "./includes/configVars.php";
+require_once "./includes/stdFunctions.php";
 
-// Require the necessary classes
-require_once "./includes/MySQLConnection.php";
-require_once "./includes/LogController.php";
+// REQUIRE CLASSES ------------------------------
 require_once "./includes/PageController.php";
+require_once "./includes/PageInfo.php";
+require_once "./includes/LogController.php";
+require_once "./includes/MySQLConnection.php";
 
-// Get instances of the necessary classes
-$logger = LogController::getInstance();
-$pageController = PageController::getInstance();
+// PARSE THE PAGE ID ----------------------------
+$pageID = (empty($_GET['page'])) ? "home" : $_GET['page'];
 
-// PARSE GET VALUES -----------------------------
-$pageID = (empty($_GET['id'])) ? "index" : $_GET['id'];
-
-// GENERATE PAGE VALUES -------------------------
-try {
-	$pageTitle = $pageController->getPageTitle($pageID);
-	$pageLocation = "./pages/" . $pageController->getPageLocation($pageID);
-} catch(Exception $e) {
-	// The page is invalid
-	$pageTitle = "Page Not Found";
-	$pageLocation = "./pages/error.php";
+// If the page is invalid or does not exist, error it up!
+if(!PageController::isValidPage($pageID)) {
+	// This is an error
+	$error = TRUE;
+	$errorTitle = "Invalid Page Selection";
+	$errorMessage = "'{$pageID}' is not a valid page ID. Please select a page from the navigation bar at the top or bottom of the page.";
 	
-	$errorTitle = "Page Not Found";
-	$errorMessage = "The requested page is not a valid page. Please select a page from the navigation bar.";
-	$logger->addEntry("Invalid page request: pageID='{$pageID}'", LogController::WARN_TYPE);
-}
-
-// ERROR CHECKING -------------------------------
-if(!file_exists($pageLocation)) {
-	// The page is valid, but the file does not exist
-	$pageTitle = "Page Not Found";
-	$pageLocation = "./pages/error.php";
+	// Log the error
+	LogController::newEntry($errorTitle, LogController::TYPE_WARN, "'{$pageID}' was requested, but is an invalid page.");
 	
-	$errorTitle = "Page Not Found";
-	$errorMessage = "The requested page was not found. Please contact the site administrator if the problem persists.";
-	$logger->addEntry("Requested page does not exist: pageLocation='{$pageLocation}'", LogController::ERROR_TYPE);
+	// Set the pageTitle
+	$pageTitle = "404 Error";
+} else {
+	// Grab the PageInfo
+	$page = PageController::getPageInfo($pageID);
+	
+	// Check that the page exists
+	if(!PageController::pageExists($pageID)) {
+		// This is an error
+		$error = TRUE;
+		$errorTitle = "Fatal Error: Page Does Not Exist";
+		$errorMessage = "The requested page cannot be found.";
+		
+		// Log the error
+		LogController::newEntry($errorTitle, LogController::TYPE_ERROR, "'{$pageID}' is valid, but {$page->getLocation()} does not exist!");
+		
+		// Set the pageTitle
+		$pageTitle = "404 Error";
+	} else {
+		// Set the correct information
+		$pageTitle = $page->getTitle();
+		$pageLocation = $page->getLocation();
+	}
 }
 
 ?>
@@ -63,18 +71,25 @@ if(!file_exists($pageLocation)) {
 		
 		<!-- JavaScript -->
 		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="js/menu_animate.js.php"></script> 
+		<script type="text/javascript" src="js/menu_animate.js"></script> 
 	</head>
 	<body>
 		<div id="container">
 			<!-- Header -->
 			<div id="header">
-				<? require("./pages/header.php"); ?>
+				<? require_once "./pages/header.php"; ?>
 			</div>
 			
 			<!-- Content -->
 			<div id="content">
-				<? require($pageLocation); ?>
+				<?
+				// Output the error message if there is an error
+				if($error) {
+					drawError($errorTitle, $errorMessage);
+				} else {
+					require_once $pageLocation;
+				} 
+				?>
 			</div>
 		
 			<!-- Footer -->

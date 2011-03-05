@@ -6,26 +6,36 @@
  * and performing standard tasks with it. This class is implemented in the
  * singleton pattern, so only one connection will exist per script. 
  * 
- * Plans for the Future:
- * - Implement a databaseConnection interface to allow for other databases
- * - Write with support for MySQL Native Driver
+ * TODO: Implement a databaseConnection interface to allow for other databases
  * 
  * @author Ben Russell (benrr101@csh.rit.edu)
  */
  
  class MySQLConnection {
- 	// MEMBER VARIABLES -----------------------------------
+ 	// MEMBER VARIABLES =========================
  	
- 	/* The instance of the class */
+ 	/* MySQLConnection
+ 	 * The instance of the class
+ 	 */
  	private static $instance;
  	
- 	/* The database connection */
+ 	/* bool
+ 	 * Whether or not the database is connected
+ 	 */
+ 	private $connected;
+ 	
+ 	
+ 	/* mysqli
+ 	 * The database connection 
+ 	 */
  	private $dbConn;
  	
- 	/* The last error message received */
+ 	/* string
+ 	 * The last error message received 
+ 	 */
  	private $lastError;
  	
- 	// METHODS --------------------------------------------
+ 	// METHODS ==================================
  	
  	// SINGLETON METHODS ------------------------
  	
@@ -41,7 +51,16 @@
  		// Conn the database into connecting
  		$this->dbConn = new mysqli($_TLCONFIG['db_host'], $_TLCONFIG['db_user'], $_TLCONFIG['db_pass'], $_TLCONFIG['db_name']);
  		
- 		// TODO: Blow up if that didn't work
+ 		// If it blew up, we did not connect
+ 		if($this->dbConn->connect_error) {
+ 			$this->connected = FALSE;
+ 			$this->lastError = $this->dbConn->connect_error;
+ 			
+ 			// Place a new entry in the log file
+ 			LogController::newFileEntry(LogController::TYPE_ERROR, "Database connection failed: {$this->lastError}");
+ 		} else {
+ 			$this->connected = TRUE;
+ 		}
  	}
  	
  	/**
@@ -67,16 +86,6 @@
  	}
  	 
  	// DATABASE METHODS ------------------------
- 	 
- 	/**
- 	 * Returns the last error that occurred
- 	 * 
- 	 * @return	string	The error message of the last error
- 	 * 				NULL if no errors have occurred
- 	 */
- 	public function getLastError() {
- 		return $this->lastError;
- 	} 
  	 
  	/**
  	 * Queries the database and returns an array of the records that were 
@@ -127,6 +136,28 @@
  	 */
  	public function sanitize($string) {
  		return $this->dbConn->real_escape_string($string);
+ 	}
+ 	
+ 	// GETTERS ----------------------------------
+ 	
+ 	/**
+ 	 * Returns the last error that occurred
+ 	 * 
+ 	 * @return	string	The error message of the last error
+ 	 * 					NULL if no errors have occurred
+ 	 */
+ 	public function getLastError() {
+ 		return $this->lastError;
+ 	}
+ 	
+ 	/**
+ 	 * Returns whether or not the database is connected
+ 	 * 
+ 	 * @return	bool	TRUE if the database is connected
+ 	 * 					FALSE if the database failed to connect
+ 	 */
+ 	public function isConnected() {
+ 		return $this->connected;
  	}
  	
  	// DECONSTRUCTION METHOD --------------------
