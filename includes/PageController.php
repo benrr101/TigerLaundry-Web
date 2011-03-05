@@ -37,7 +37,7 @@ class PageController {
 		if(!self::isInitialized()) { self::initialize(); }
 		
 		// Blow up if it doesn't exist
-		if(self::isValidPage($id)) { throw new Exception("Invalid ID: $id"); }
+		if(!self::isValidPage($id)) { throw new Exception("Invalid ID: $id"); }
 		
 		// Create the PageInfo object
 		$result = new PageInfo($id, self::$pageData[$id]['title'], self::$pageData[$id]['location']);		
@@ -74,7 +74,7 @@ class PageController {
 		if(!self::isInitialized()) { self::initialize(); }
 		
 		// Blow up if it doesn't exist
-		if(self::isValidPage($id)) { throw new Exception("Invalid ID: $id"); }
+		if(!self::isValidPage($id)) { throw new Exception("Invalid ID: $id"); }
 		
 		// Check the page exists
 		// TODO: Magic String!
