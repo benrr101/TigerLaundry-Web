@@ -29,7 +29,7 @@ if(!PageController::isValidPage($pageID)) {
 	$errorMessage = "'{$pageID}' is not a valid page ID. Please select a page from the navigation bar at the top or bottom of the page.";
 	
 	// Log the error
-	LogController::newEntry($errorTitle, LogController::TYPE_WARN, "'{$pageID}' was requested, but is an invalid page.");
+	LogController::newEntry(LogController::TYPE_WARN, "'{$pageID}' was requested, but is an invalid page.");
 	
 	// Set the pageTitle
 	$pageTitle = "404 Error";
@@ -45,14 +45,14 @@ if(!PageController::isValidPage($pageID)) {
 		$errorMessage = "The requested page cannot be found.";
 		
 		// Log the error
-		LogController::newEntry($errorTitle, LogController::TYPE_ERROR, "'{$pageID}' is valid, but {$page->getLocation()} does not exist!");
+		LogController::newEntry(LogController::TYPE_ERROR, "'{$pageID}' is valid, but {$page->getLocation()} does not exist!");
 		
 		// Set the pageTitle
 		$pageTitle = "404 Error";
 	} else {
 		// Set the correct information
 		$pageTitle = $page->getTitle();
-		$pageLocation = $page->getLocation();
+		$pageLocation = "./pages/" . $page->getLocation();
 	}
 }
 
@@ -84,7 +84,7 @@ if(!PageController::isValidPage($pageID)) {
 			<div id="content">
 				<?
 				// Output the error message if there is an error
-				if($error) {
+				if(isset($error) && $error) {
 					drawError($errorTitle, $errorMessage);
 				} else {
 					require_once $pageLocation;

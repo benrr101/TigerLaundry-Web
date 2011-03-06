@@ -11,5 +11,5 @@
 
 				<a href="index.php?id=index"><img id="headerLogo" src="./images/headerLogo.png" alt="Tiger Laundry" /></a>
 				<div id="headerNav">
-					<?=	$pageController->getNavCode(); ?><?= "\n" ?>
+					Some shit goes here.
 				</div>

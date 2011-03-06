@@ -78,7 +78,7 @@ class PageController {
 		
 		// Check the page exists
 		// TODO: Magic String!
-		return file_exists("../pages/" . self::$pageData[$id]['location']);
+		return file_exists("pages/" . self::$pageData[$id]['location']);
 	}
 	
 	// PRIVATE METHODS --------------------------

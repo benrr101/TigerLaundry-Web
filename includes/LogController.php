@@ -77,12 +77,12 @@ class LogController {
 		if($dbConn->isConnected()) {
 			// Sanitize the input
 			$type = $dbConn->sanitize($type);
-			$message = $dbConn->sanitize($message);
-			
+			$sanitizedMessage = $dbConn->sanitize($message);
+
 			// Query the database!
-			$result = $dbConn->query("INSERT INTO `log` " .
-					"(type, message, date, ip) " .
-					"VALUES ('$type', '$message', NOW()), INET_ATON('{$_SERVER['REMOTE_ADDR']}')"
+			$result = $dbConn->query("INSERT INTO `log` \n" .
+					"(type, message, date, ip) \n" .
+					"VALUES ('$type', '$sanitizedMessage', NOW(), INET_ATON('{$_SERVER['REMOTE_ADDR']}'))\n"
 					);
 			
 			// Did it fail?
@@ -111,7 +111,7 @@ class LogController {
 	public static function newFileEntry($type, $message) {
 		// Open a handle to the log file, supress error
 		// TODO: Magic String
-		$handle = @fopen("../logs/log.log", 'a');
+		$handle = fopen("logs/log.log", 'a');
 		
 		// If it failed, just stop.
 		if(!$handle) { return; }
