@@ -13,7 +13,22 @@
 	 | - :link
 	 | - :visited
 	 |
+    img
 	 |
+	#container
+	 | - #header
+	 |	   | - #headerLogo
+	 |     | - .headerNav
+	 |     | - #headerBldgMenu
+	 |	   |	 | - p
+	 |	   | - #headerAboutMenu
+	 |	   |     | - p
+     |
+     | - #content
+     |     |
+     |
+     | - #footer
+     |     |
 */
 
 body {
@@ -25,15 +40,90 @@ body {
 }
 
 a:active {
-	font-color:grey;
+	color:grey;
 }
 
 a:link {
-	font-color:blue;
+	color:blue;
 }
 
 a:visited {
-	font-color:#551A8B;
+	color:#551A8B;
 }
 
+img {
+	border:0px;
+}
 
+/* ==================================== */
+
+#container {
+	position:relative;
+	float:center;
+	width:850px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:url('../images/containerBG.png');
+	background-repeat:repeat-y;
+}
+
+#container #header {
+	position:relative;
+	float:center;
+	width:810px;
+	height:210px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:url('../images/headerBG.png');
+}
+
+#container #content {
+	position:relative;
+	float:center;
+	width:810px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#container #footer {
+	position:relative;
+	float:center;
+	width:810px;
+	height:240px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:url('../images/footerBG.png');
+}
+
+/* HEADER ============================= */
+
+#headerLogo {
+	position:relative;
+	float:left;
+	margin-left:20px;
+	margin-top:15px;
+	margin-bottom:79px;
+	margin-right:175px;
+}
+
+.headerNav {
+	position:relative;
+	float:left;
+	margin-top:64px;
+	margin-bottom:118px;
+}
+
+#headerBldgMenu, #headerAboutMenu {
+	position:absolute;
+	display:none;
+	background-image:url('../images/submenuBG.png');
+	width:200px;
+	z-index:9999;
+}
+
+#headerBldgMenu, #headerAboutMenu p{
+	margin:5px;
+	font-size:14px;
+	font-family:"DejaVu Sans", "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Verdana", sans-serif;
+}
+	
