@@ -25,7 +25,16 @@
 	 |	   |     | - p
      |
      | - #content
-     |     |
+     |     | - #location
+	 |	   |     | - div
+	 |     |     |    | - H3
+     |     |     |    | - H4
+	 |	   |     | - .machineFullWidth
+     |     |     | - .machineHalfNorth
+     |     |     | - .machineHalfEast
+	 |	   |     | - .GREEN
+     |     |     | - .RED
+     |     |     | - .GREY
      |
      | - #footer
      |     |
@@ -124,6 +133,65 @@ img {
 #headerBldgMenu, #headerAboutMenu p{
 	margin:5px;
 	font-size:14px;
-	font-family:"DejaVu Sans", "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Verdana", sans-serif;
 }
+
+/* LOCATION =========================== */
+
+#location {
+	position:relative;
+	float:center;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:30px;
+background-color:green;
+}
+
+#location div {
+	position:absolute;
+}
+
+#location div h3 {
+	margin:0px;
+	text-align:center;
+	font-size:10pt;
+}
+
+#location div h4 {
+	margin:0px;
+	text-align:center;
+	font-size:8pt;
+}
+
+#location .machineFullWidth {
+	height:60px;
+	width:60px;
+	background-image:url('../images/machineFull.png');
+}
+
+#location .machineHalfNorth {
+	width:60px;
+	height:30px;
+	background-image:url('../images/machineHalfNorth.png');
+}
+
+#location .machineHalfEast {
+	width:30px;
+	height:60px;
+	background-image:url('../images/machineHalfEast.png');
+}
+
+#location .GREEN {
+	background-color:#1BFA4E;
+}
+
+#location .RED {
+	background-color:#F73C48;
+}
+
+#location .GREY {
+	background-color:#B9B9B9;
+} /*dicks*/
+
+
+
 	
