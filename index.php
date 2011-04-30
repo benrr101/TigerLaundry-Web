@@ -16,6 +16,9 @@ require_once "./includes/stdFunctions.php";
 require_once "./includes/PageController.php";
 require_once "./includes/PageInfo.php";
 require_once "./includes/LogController.php";
+require_once "./includes/LocationController.php";
+require_once "./includes/Location.php";
+require_once "./includes/Machine.php";
 require_once "./includes/MySQLConnection.php";
 
 // PARSE THE PAGE ID ----------------------------
@@ -29,7 +32,7 @@ if(!PageController::isValidPage($pageID)) {
 	$errorMessage = "'{$pageID}' is not a valid page ID. Please select a page from the navigation bar at the top or bottom of the page.";
 	
 	// Log the error
-	LogController::newEntry(LogController::TYPE_WARN, "'{$pageID}' was requested, but is an invalid page.");
+	LogController::newEntry(LogController::TYPE_WARN, "Could not load pageID: '{$pageID}' is an invalid page.");
 	
 	// Set the pageTitle
 	$pageTitle = "404 Error";
@@ -45,7 +48,7 @@ if(!PageController::isValidPage($pageID)) {
 		$errorMessage = "The requested page cannot be found.";
 		
 		// Log the error
-		LogController::newEntry(LogController::TYPE_ERROR, "'{$pageID}' is valid, but {$page->getLocation()} does not exist!");
+		LogController::newEntry(LogController::TYPE_ERROR, "Could not load pageID='{$pageID}': {$page->getLocation()} does not exist!");
 		
 		// Set the pageTitle
 		$pageTitle = "404 Error";

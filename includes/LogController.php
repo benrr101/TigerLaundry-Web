@@ -139,6 +139,11 @@ class LogController {
 		
 		// Close handle
 		fclose($handle);
-	} 
+	}
+	
+	// PRIVATE CONSTRUCTOR/DECONSTRUCTOR/CLONER -
+	final private function __construct() {}
+	final private function __destruct() {}
+	final private function __clone() {}
 }
 ?>

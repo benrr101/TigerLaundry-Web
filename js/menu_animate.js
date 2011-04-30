@@ -72,8 +72,6 @@ function slideUnderMenu(parentClass, triggerClass, menuClass) {
 // When the document is ready, run the functions.
 
 $(document).ready( function() {
-	
-
-	slideUnderMenu( $('#headerNav', this), $('#headerBldgTrigger', this), $('#headerBldgMenu', this) );
+	slideUnderMenu( $('#headerBldg', this), $('#headerBldgTrigger', this), $('#headerBldgMenu', this) );
 	slideUnderMenu( $('#headerAbout', this), $('#headerAboutTrigger', this), $('#headerAboutMenu', this) );
 } );

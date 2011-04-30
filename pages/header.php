@@ -7,8 +7,17 @@
  * 
  * @author Ben Russell (benrr101@csh.rit.edu) 
  */
-?>
+ 
+// Grab the location rows
+$locationRows = LocationController::getLocationArray();
 
+// Generate code for the list of locations
+$locationCode = "";
+foreach($locationRows as $element) {
+	$locationCode .= "<p><a href='index.php?page=location&locationid={$element['locationID']}'>{$element['longName']}</a></p>\n";
+}
+
+?>
 				<a href="index.php?id=index"><img id="headerLogo" src="./images/headerLogo.png" alt="Tiger Laundry" /></a>
 				<div id="headerHome" class="headerNav"><a href="index.php?page=home"><img src="./images/headerHome.png" alt="Home" /></a></div>				
 				<div id="headerDot1" class="headerNav"><img src="./images/headerDot.png" alt="&middot;" /></div>
@@ -16,7 +25,7 @@
 					<div id="headerBldgTrigger">
 						<a href="index.php?page=locationindex"><img src="./images/headerBldg.png" alt="Buildings" /></a>
 						<div id="headerBldgMenu">
-							List of buildings goes here
+							<?= $locationCode ?>
 						</div>
 					</div>
 				</div>
