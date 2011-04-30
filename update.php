@@ -1,6 +1,8 @@
 <?php
 /* Adruino Update Page for TigerLaundry (2011 Recode Version)
  * 
+ * This page is called by the arduino to update a machine.
+ * 
  * @author	Ben Russell (benrr101@csh.rit.edu)
  */
  
