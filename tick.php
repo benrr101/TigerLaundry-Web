@@ -9,6 +9,7 @@
  */
 
 // REQUIRED CLASSES ========================================================
+require_once './includes/configVars.php';
 require_once './includes/MySQLConnection.php';
 
 // Conn the database
@@ -18,7 +19,7 @@ $dbConn = MySQLConnection::getInstance();
 $query = "UPDATE machines SET timeRemaining=timeRemaining-1, status= CASE timeRemaining-1 WHEN 0 THEN 'GREEN' ELSE 'RED' END WHERE timeRemaining > 0";
 $dbConn->query($query);
 if($dbConn->getLastError()) {
-	die('error:Database');
+	die('error:Database:' . $dbConn->getLastError());
 }
 
 echo "success";

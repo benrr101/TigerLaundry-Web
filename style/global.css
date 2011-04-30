@@ -162,6 +162,12 @@ background-color:green;
 	font-size:8pt;
 }
 
+#location div h5 {
+	margin:0px;
+	text-align:center;
+	font-size:6pt;
+}
+
 #location .machineFullWidth {
 	height:60px;
 	width:60px;
@@ -190,7 +196,7 @@ background-color:green;
 
 #location .GREY {
 	background-color:#B9B9B9;
-} /*dicks*/
+}
 
 
 
