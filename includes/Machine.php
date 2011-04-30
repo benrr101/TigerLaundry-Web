@@ -98,5 +98,13 @@ class Machine {
 		// Return it!
 		return $code;
 	}
+	
+	// GETTERS --------------------------------------------
+	// You know how this goes
+	public function getGlobalID() { return $this->globalID; }
+	public function getLocalID() { return $this->localID; }
+	public function getTypeField() { return $this->type; } 		// getType is a reserverd method.
+	public function getStatus() { return $this->status; }
+	public function getTimeRemaining() { return $this->timeRemaining; }
 }
 ?>

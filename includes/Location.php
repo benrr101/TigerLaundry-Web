@@ -137,6 +137,26 @@ class Location {
 		array_push($this->machinesArray, $machine);
 	}
 	
+	/**
+	 * Checks that the given global id for a machine is contained within this
+	 * location. Returns a boolean saying so.
+	 * 
+	 * @param	int	$gid	The global id of the machine
+	 * @return	bool		True if the machine is in this location
+	 * 						False otherwise
+	 */
+	public function isValidMachine($gid) {
+		// Search the machine array for the given id
+		foreach($this->machinesArray as $machine) {
+			if($machine->getGlobalID() == $gid) {
+				return true;
+			}
+		}
+		
+		// If we make it this far, the machine isn't in this location
+		return false;
+	}
+	
 	// DRAW IT MOTHER FUCKER ==============================
 	// Note to self: don't listen to gangsta rap while coding
 	

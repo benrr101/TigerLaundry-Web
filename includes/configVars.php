@@ -32,4 +32,10 @@
   * The name of the database that contains the TigerLaundry information
   */
  $_TLCONFIG['db_name'] = 'db';
+ 
+ /* Debug Mode -
+  * Outputs a notice every time a machine is updated with the full information
+  * provided from the arduino.
+  */
+ $_TLCONFIG['debugMode'] = false;
 ?>

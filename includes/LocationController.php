@@ -37,9 +37,6 @@ class LocationController {
 	 * @return	Location	The location identified by the given LocationID
 	 */
 	public static function getLocation($locationID) {
-		// Verify the ID first
-		if(!self::isValidLocation($locationID)) { throw new Exception("'$locationID' is an invalid location!"); }
-		
 		// Grab a connection to the database
 		$dbConn = MySQLConnection::getInstance();
 		
@@ -47,6 +44,12 @@ class LocationController {
 		if(!$dbConn->isConnected()) {
 			throw new Exception("Database not connected: " . $dbconn->getLastError());
 		}
+		
+		// Sanitize first.
+		$locationID = $dbConn->sanitize($locationID);
+		
+		// Verify the ID
+		if(!self::isValidLocation($locationID)) { throw new Exception("'$locationID' is an invalid location!"); }
 		
 		// It's the real deal, so continue.
 		// Build and execute the query to grab the location
