@@ -16,7 +16,19 @@ require_once './includes/MySQLConnection.php';
 $dbConn = MySQLConnection::getInstance();
 
 // Run the mighty query
-$query = "UPDATE machines SET timeRemaining=timeRemaining-1, status= CASE timeRemaining-1 WHEN 0 THEN 'GREEN' ELSE 'RED' END WHERE timeRemaining > 0";
+$query = "UPDATE machines SET status=IF(timeRemaining-1=0,'GREEN', 'RED'), timeRemaining=timeRemaining-1 WHERE timeRemaining > 0";
+$dbConn->query($query);
+if($dbConn->getLastError()) {
+	die('error:Database:' . $dbConn->getLastError());
+}
+
+// Now update the locations with the number of broken, open, and inuse machines
+// MOST AWESOME QUERY EVER
+$query = "UPDATE locations" .
+		"SET " .
+		"    locations.inUse = (SELECT COUNT(id) as inUse FROM machines WHERE machines.location=locations.locationID AND machines.status='RED')," .
+		"    locations.available = (SELECT COUNT(id) as available FROM machines WHERE machines.location=locations.locationID AND machines.status='GREEN')," .
+		"    locations.broken = (SELECT COUNT(id) as broken FROM machines WHERE machines.location=locations.locationID AND machines.status='GREY')";
 $dbConn->query($query);
 if($dbConn->getLastError()) {
 	die('error:Database:' . $dbConn->getLastError());
