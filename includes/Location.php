@@ -172,6 +172,11 @@ class Location {
 			$code .= "\t" . $machine->getDrawCode() . "\n";
 		}
 		
+		// Draw the door, if there is one
+		if($this->doorO != self::DOOR_NONE) {
+			$code .= "\t<div id='door' class='door' style='bottom:{$this->doorY}px; left:{$this->doorX}px'><img src='./images/door_{$this->doorO}.png' alt='door' /></div>\n";
+		}
+		
 		$code .= "</div>\n"; 
 		
 		return $code;

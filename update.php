@@ -76,13 +76,13 @@ switch($_GET['statusChange']) {
 // Run the query
 $dbConn->query($query);
 if($dbConn->getLastError()) {
-	LogController::LogEntry("E", "Could not update! Error: ". $dbConn->getLastError());
+	LogController::newEntry("E", "Could not update! Error: ". $dbConn->getLastError());
 	die("error:Database");
 }
 
 // Are we in debug mode?
 if($_TLCONFIG['debugMode']) {
-	LogController::LogEntry("N", "Updating: ardu={$_GET['arduID']}, location={$_GET['locationID']}, machine={$_GET['machineID']}, {$_GET['statusChange']}");
+	LogController::newEntry("N", "Updating: ardu={$_GET['arduID']}, location={$_GET['locationID']}, machine={$_GET['machineID']}, {$_GET['statusChange']}");
 }
 
 echo("success");

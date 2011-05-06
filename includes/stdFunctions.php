@@ -17,8 +17,12 @@
  */
 function drawError($errorTitle, $errorMessage) {
 	// Build the errorBox code
-	// TODO: Make it correct, not just demoy
-	$code = "***ErrorBox*** " . $errorTitle . ": " . $errorMessage;
+	$code = "<div class='errorBox'>" .
+			"<table><tr>" .
+				"<td class='errorLeft'><img src='./images/error_icon.png' alt='Error!' /></td>" .
+				"<td class='errorRight'><h2>" . $errorTitle . ":</h2><p>" . $errorMessage . "</p></td>" .
+			"</tr></table>" .
+			"</div>";
 	
 	// Print it!
 	echo $code;

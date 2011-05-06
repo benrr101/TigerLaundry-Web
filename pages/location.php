@@ -28,4 +28,6 @@ $location = LocationController::getLocation($_GET['locationid']);
 ?>
 <h1><?= $location->getLongName() ?> -<h1>
 <?= $location->getDrawCode() ?>
+<h2>Legend -</h2>
+<div id="legend"><img src='./images/legend.png' alt='legend' /></div>
 
