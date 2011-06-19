@@ -22,7 +22,7 @@ $STATUS_CHANGES = array('START', 'STOP', 'BREAK');
 // Did we get everything we need?
 if(empty($_GET['arduID']) || empty($_GET['machineID']) || empty($_GET['locationID']) || empty($_GET['statusChange'])) {
 	// Send a log message, then stop.
-	LogController::newEntry("E", "Could not process update: All arguments not provided");
+	LogController::newEntry("E", "Could not process update: All arguments not provided " . implode(','$_GET));
 	die("error:Argument");
 }
 

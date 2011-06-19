@@ -93,7 +93,7 @@ class Machine {
 		$code .= "<h4>{$this->localID}</h4>";
 		
 		// Add the time remaining
-		$code .= ($this->status == Location::STATUS_RED) ? "<h5>{$this->timeRemaining} min</h5>" : "";
+		$code .= ($this->status == Location::STATUS_RED) ? "<h5 id='m{$this->globalID}tr'>{$this->timeRemaining} min</h5>" : "";
 		
 		// Close up the div
 		$code .= "</div>";

@@ -28,6 +28,8 @@ $location = LocationController::getLocation($_GET['locationid']);
 ?>
 <h1><?= $location->getLongName() ?> -<h1>
 <?= $location->getDrawCode() ?>
+<script type="text/javascript" src='./js/location_ajax.js'></script>
 <h2>Legend -</h2>
 <div id="legend"><img src='./images/legend.png' alt='legend' /></div>
+<form method="POST" action="#"><input id="locationID" type="hidden" value="<?= $_GET['locationid'] ?>" /></form>
 

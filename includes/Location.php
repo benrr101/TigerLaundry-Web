@@ -182,6 +182,37 @@ class Location {
 		return $code;
 	}
 	
+	/**
+	 * Generates a JSON object representing each machine in the location. This
+	 * enables the caller to update the status of the machines.
+	 * 
+	 * @return	JSONString	A JSON object with each machine in the location.
+	 */
+	public function getUpdateCode() {
+		// JSON
+		$code = "[\n";
+		
+		// JSON for each machine
+		$machineData = array();
+		foreach($this->machinesArray as $machine) {
+			/*$machineIDs[] = $machine->getGlobalID();
+			$status[] = $machine->getStatus();
+			$timeRemaining[] = $machine->getTimeRemaining();*/
+			$data = "{ id: {$machine->getGlobalID()},";
+			$data .= " status: \"{$machine->getStatus()}\",";
+			$data .= " timeRemaining: {$machine->getTimeRemaining()} }";
+			$machineData[] = $data;
+		}
+		
+		// Add the data to the json
+		$code .= implode(",\n", $machineData);
+		
+		// Close it up and return it
+		$code .= "]";
+		
+		return $code;
+	}
+	
 	// GETTERS ============================================
 	
 	// We'll do these in one crazy huge batch. No comments. You get what's happening

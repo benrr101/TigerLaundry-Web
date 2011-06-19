@@ -47,6 +47,8 @@
      |	   |     | - .doorLEFT
      |	   |     | - .doorRIGHT
      |	   |     | - .doorBOTTOM
+     |	   |	 | - #spinner
+     |	   |     |     | - img
      |     |
      |     | - #legend
      |
@@ -78,6 +80,7 @@ a:visited {
 img {
 	border:0px;
 }
+	
 
 /* ==================================== */
 
@@ -260,6 +263,20 @@ img {
 #location .door {
 	height:60px;
 	width:60px;
+}
+
+#location #spinner {
+	background-color:#0c89e6;
+	position:fixed;
+	top:0px;
+	right:0px;
+	font-size:24px;
+	text-align:right;
+	padding:5px;
+}
+
+#location #spinner img {
+	vertical-align:middle;
 }
 
 #content #legend {

@@ -24,16 +24,37 @@ if($dbConn->getLastError()) {
 
 // Now update the locations with the number of broken, open, and inuse machines
 // MOST AWESOME QUERY EVER
-$query = "UPDATE locations" .
-		"SET " .
-		"    locations.inUse = (SELECT COUNT(id) as inUse FROM machines WHERE machines.location=locations.locationID AND machines.status='RED')," .
-		"    locations.available = (SELECT COUNT(id) as available FROM machines WHERE machines.location=locations.locationID AND machines.status='GREEN')," .
-		"    locations.broken = (SELECT COUNT(id) as broken FROM machines WHERE machines.location=locations.locationID AND machines.status='GREY')";
+$query = "UPDATE locations SET locations.inUse = ( SELECT COUNT( id ) AS inUse
+ FROM machines
+ WHERE machines.location = locations.locationID
+ AND machines.status = 'RED' ) , locations.available = (
+ SELECT COUNT( id ) AS available
+ FROM machines
+ WHERE machines.location = locations.locationID
+ AND machines.status = 'GREEN' ) , locations.broken = (
+ SELECT COUNT( id ) AS broken
+ FROM machines)";
 $dbConn->query($query);
 if($dbConn->getLastError()) {
 	die('error:Database:' . $dbConn->getLastError());
 }
 
-echo "success";
+echo "success\n";
+
+// HAX: Our failsafe contingency
+// Generate random number between 1 and 15
+$number = rand(1,15) % 15;
+echo($number . "\n");
+if($number == 8 || $number == 2) {
+	$machine = rand(1,3) % 3;
+	
+	// Only start if off now
+	$result = $dbConn->query("SELECT status FROM machines WHERE id=" . (28-$machine));
+	if($result[0]['status'] == "GREEN" || $result[0]['status'] == "GREY") {
+		$machine = rand(1,3);
+		echo("Starting machine:$machine");
+		$response = http_get("http://iota.csh.rit.edu/laundryview2/update.php?arduID=bagofdicks&machineID=". (28-$machine) . "&locationID=per&statusChange=START");	
+	}
+}
 
 ?>
